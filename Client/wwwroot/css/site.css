@@ -35,3 +35,97 @@ body {
         display: none;
     }
 }
+
+
+.overwrite {
+    position: relative;
+}
+
+    .overwrite:after {
+        position: absolute;
+        top: 0rem;
+        left: 0;
+        display: block;
+        transform: rotate(-10deg);
+        color: darkblue;
+        font-family: 'Comic Sans MS';
+    }
+
+.year:after {
+    content: '202';
+}
+
+.comp:after {
+    content: 'UEFA';
+}
+
+.cup:after {
+    content: 'EURO';
+}
+
+.zero:after {
+    top: -1rem;
+    content: '0';
+}
+
+.one:after {
+    top: -1.5rem;
+    color: red;
+    content: '1';
+}
+
+
+.jumbotron {
+    background-image: url('../images/worldCupMain.jpg');
+    height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+    .jumbotron .container {
+        position: relative;
+        top: 100px;
+    }
+
+
+    .jumbotron h1 {
+        color: #fff;
+        font-size: 48px;
+        font-family: 'Shift', sans-serif;
+        font-weight: bold;
+    }
+
+    .jumbotron p {
+        font-size: 20px;
+        color: #fff;
+    }
+
+
+.learn-more h3 {
+    font-family: 'Shift', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.learn-more a {
+    color: #00b0ff;
+}
+
+
+
+.neighborhood-guides h2 {
+    color: #393c3d;
+    font-size: 24px;
+}
+
+.neighborhood-guides p {
+    font-size: 15px;
+    margin-bottom: 13px;
+}
+
+.thumbnail {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
