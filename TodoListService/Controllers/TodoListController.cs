@@ -37,12 +37,12 @@ namespace TodoListService.Controllers
     [RequiredScope(scopeRequiredByAPI)]
     public class TodoListController : Controller
     {
-        const string scopeRequiredByAPI = "access_as_user" ;
+        const string scopeRequiredByAPI = "access_as_user";
         // In-memory TodoList
         private static readonly Dictionary<int, Todo> TodoStore = new Dictionary<int, Todo>();
 
         private readonly IHttpContextAccessor _contextAccessor;
-     
+
         public TodoListController(IHttpContextAccessor contextAccessor)
         {
             this._contextAccessor = contextAccessor;
