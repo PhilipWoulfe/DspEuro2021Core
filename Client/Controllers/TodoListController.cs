@@ -32,7 +32,9 @@ namespace TodoListClient.Controllers
         // GET: TodoList/Create
         public ActionResult Create()
         {
-            Todo todo = new Todo() { Owner = HttpContext.User.Identity.Name };
+            var identity = HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
+            var userId = identity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            Todo todo = new Todo() { Owner = userId };
             return View(todo);
         }
 
