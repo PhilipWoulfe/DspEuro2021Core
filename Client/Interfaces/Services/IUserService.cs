@@ -22,24 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoListService.Models;
+using TodoListClient.Models;
 
-namespace TodoListClient.Services
+namespace ToooListClient.Interfaces.Services
 {
-    public interface ITodoListService
+    public interface IUserService
     {
-        Task<IEnumerable<Todo>> GetAsync();
-
-        Task<Todo> GetAsync(int id);
-
+        Task<User> AddAsync(User user);
         Task DeleteAsync(int id);
-
-        Task<Todo> AddAsync(Todo todo);
-
-        Task<Todo> EditAsync(Todo todo);
+        Task<User> EditAsync(User user);
+        Task<IEnumerable<User>> GetAsync();
+        Task<User> GetAsync(int id);
     }
 }

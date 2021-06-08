@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TodoListService.Models;
@@ -35,24 +36,49 @@ namespace TodoListService.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [RequiredScope(scopeRequiredByAPI)]
-    public class TodoListController : Controller
+    public class UserController : Controller
     {
         const string scopeRequiredByAPI = "access_as_user";
         // In-memory TodoList
-        private static readonly Dictionary<int, Todo> TodoStore = new Dictionary<int, Todo>();
+        private static readonly Dictionary<int, User> UserStore = new Dictionary<int, User>();
 
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public TodoListController(IHttpContextAccessor contextAccessor)
+        public UserController(IHttpContextAccessor contextAccessor)
         {
             this._contextAccessor = contextAccessor;
 
             // Pre-populate with sample data
-            if (TodoStore.Count == 0)
+            if (UserStore.Count == 0)
             {
-                TodoStore.Add(1, new Todo() { Id = 1, Owner = $"{GetId()}", Title = "Pick up groceries" });
-                TodoStore.Add(2, new Todo() { Id = 2, Owner = $"{GetId()}", Title = "Finish invoice report" });
-                // 	aa7ae9b0-430d-4152-bf4c-4885864b5000
+                UserStore.Add(1, new User() { 
+                    Id = 1, 
+                    Oid = $"aa7ae9b0-430d-4152-bf4c-4885864b5000",
+                    FirstName = "Philip",
+                    Surname = "Woulfe",
+                    UserName = "PhilipWoulfe",
+                    IsPaid = true,
+                    IsAdmin = true,
+                    CreatedDate = DateTime.Today,
+                    LastAmendedDate = DateTime.Today,
+                    UpdatedBy = 1
+
+                });
+                UserStore.Add(2, new User()
+                {
+                    Id = 2,
+                    Oid = $"aa-bbb-cc",
+                    FirstName = "Darren",
+                    Surname = "Woulfe",
+                    UserName = "DarrenWoulfe",
+                    IsPaid = false,
+                    IsAdmin = false,
+                    CreatedDate = DateTime.Today,
+                    LastAmendedDate = DateTime.Today,
+                    UpdatedBy = 1
+
+                });
+                // 	
             }
         }
 
@@ -64,54 +90,67 @@ namespace TodoListService.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<Todo> Get()
+        public IEnumerable<User> Get()
         {
-            string owner = User.Identity.Name;
-            return TodoStore.Values.Where(x => x.Owner == GetId());
+            return UserStore.Values;
         }
 
         // GET: api/values
         [HttpGet("{id}", Name = "Get")]
-        public Todo Get(int id)
+        public User Get(int id)
         {
-            return TodoStore.Values.FirstOrDefault(t => t.Id == id);
+            return UserStore.Values.FirstOrDefault(t => t.Id == id);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            TodoStore.Remove(id);
+            UserStore.Remove(id);
         }
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] Todo todo)
+        public IActionResult Post([FromBody] User user)
         {
-            int id = TodoStore.Values.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
-            Todo todonew = new Todo() { Id = id, Owner = HttpContext.User.Identity.Name, Title = todo.Title };
-            TodoStore.Add(id, todonew);
+            int id = UserStore.Values.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+            User userNew = new User()
+            {
+                Id = id,
+                Oid = user.Oid,
+                FirstName = user.FirstName,
+                Surname = user.Surname,
+                UserName = user.UserName,
+                IsPaid = user.IsPaid,
+                IsAdmin = user.IsAdmin  ,
+                CreatedDate = DateTime.Today,
+                LastAmendedDate = DateTime.Today,
+                UpdatedBy = 1
 
-            return Ok(todo);
+            };
+
+            UserStore.Add(id, userNew);
+
+            return Ok(user);
         }
 
         // PATCH api/values
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, [FromBody] Todo todo)
+        public IActionResult Patch(int id, [FromBody] User user)
         {
-            if (id != todo.Id)
+            if (id != user.Id)
             {
                 return NotFound();
             }
 
-            if (TodoStore.Values.FirstOrDefault(x => x.Id == id) == null)
+            if (UserStore.Values.FirstOrDefault(x => x.Id == id) == null)
             {
                 return NotFound();
             }
 
-            TodoStore.Remove(id);
-            TodoStore.Add(id, todo);
+            UserStore.Remove(id);
+            UserStore.Add(id, user);
 
-            return Ok(todo);
+            return Ok(user);
         }
     }
 }
