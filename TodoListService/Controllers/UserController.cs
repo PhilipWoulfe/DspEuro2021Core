@@ -53,7 +53,7 @@ namespace TodoListService.Controllers
             {
                 UserStore.Add(1, new User() { 
                     Id = 1, 
-                    Oid = $"aa7ae9b0-430d-4152-bf4c-4885864b5000",
+                    Oid = $"3fd3c66b-2957-4869-9559-9927ad0c7577",
                     FirstName = "Philip",
                     Surname = "Woulfe",
                     UserName = "PhilipWoulfe",
@@ -64,21 +64,6 @@ namespace TodoListService.Controllers
                     UpdatedBy = 1
 
                 });
-                UserStore.Add(2, new User()
-                {
-                    Id = 2,
-                    Oid = $"aa-bbb-cc",
-                    FirstName = "Darren",
-                    Surname = "Woulfe",
-                    UserName = "DarrenWoulfe",
-                    IsPaid = false,
-                    IsAdmin = false,
-                    CreatedDate = DateTime.Today,
-                    LastAmendedDate = DateTime.Today,
-                    UpdatedBy = 1
-
-                });
-                // 	
             }
         }
 
@@ -102,6 +87,17 @@ namespace TodoListService.Controllers
             return UserStore.Values.FirstOrDefault(t => t.Id == id);
         }
 
+        // GET: api/values
+        [HttpGet("{oid}", Name = "UserExistsByOid")]
+        public bool GetIdByOid(string oid)
+        {
+            var exists = UserStore.Values.Select(t => t)
+                    .Where(t => t.Oid == oid)
+                    .Count() > 0;
+
+            return exists;
+        }
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
@@ -112,24 +108,26 @@ namespace TodoListService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] User user)
         {
-            int id = UserStore.Values.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
-            User userNew = new User()
+            if (Get(user.Id) != null)
             {
-                Id = id,
-                Oid = user.Oid,
-                FirstName = user.FirstName,
-                Surname = user.Surname,
-                UserName = user.UserName,
-                IsPaid = user.IsPaid,
-                IsAdmin = user.IsAdmin  ,
-                CreatedDate = DateTime.Today,
-                LastAmendedDate = DateTime.Today,
-                UpdatedBy = 1
+                int id = UserStore.Values.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+                User userNew = new User()
+                {
+                    Id = id,
+                    Oid = user.Oid,
+                    FirstName = user.FirstName,
+                    Surname = user.Surname,
+                    UserName = user.UserName,
+                    IsPaid = user.IsPaid,
+                    IsAdmin = user.IsAdmin,
+                    CreatedDate = DateTime.Today,
+                    LastAmendedDate = DateTime.Today,
+                    UpdatedBy = 1
 
-            };
+                };
 
-            UserStore.Add(id, userNew);
-
+                UserStore.Add(id, userNew);
+            }
             return Ok(user);
         }
 

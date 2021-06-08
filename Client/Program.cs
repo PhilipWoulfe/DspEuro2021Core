@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace WebApp_OpenIDConnect_DotNet
+namespace ToooListClient
 {
     public class Program
     {

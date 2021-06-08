@@ -138,5 +138,21 @@ namespace TodoListClient.Services
 
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
         }
+
+        public async Task<bool> GetUserByOid(string oid)
+        {
+            await PrepareAuthenticatedClient();
+
+            var response = await _httpClient.GetAsync($"{ _UserBaseAddress}/api/user/{oid}");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                bool user = JsonConvert.DeserializeObject<bool>(content);
+
+                return user;
+            }
+
+            throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+        }
     }
 }

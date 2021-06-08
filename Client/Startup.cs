@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web.UI;
 
-namespace WebApp_OpenIDConnect_DotNet
+namespace ToooListClient
 {
     public class Startup
     {

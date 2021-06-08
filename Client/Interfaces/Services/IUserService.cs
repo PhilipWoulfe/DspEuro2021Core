@@ -37,5 +37,7 @@ namespace ToooListClient.Interfaces.Services
         Task<User> EditAsync(User user);
         Task<IEnumerable<User>> GetAsync();
         Task<User> GetAsync(int id);
+        Task<bool> GetUserByOid(string oid);
+
     }
 }

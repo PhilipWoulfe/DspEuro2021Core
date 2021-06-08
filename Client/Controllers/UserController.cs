@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using ToooListClient.Interfaces.Services;
 
 namespace UserClient.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private IUserService _userService;

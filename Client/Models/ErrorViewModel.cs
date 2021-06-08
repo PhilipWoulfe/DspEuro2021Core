@@ -1,4 +1,4 @@
-namespace WebApp_OpenIDConnect_DotNet.Models
+namespace ToooListClient.Models
 {
     public class ErrorViewModel
     {
