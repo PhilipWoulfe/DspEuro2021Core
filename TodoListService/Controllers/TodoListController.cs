@@ -56,7 +56,7 @@ namespace TodoListService.Controllers
             }
         }
 
-        public string GetId()
+        private string GetId()
         {
             var identity = _contextAccessor.HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
             return identity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
