@@ -42,11 +42,11 @@ namespace WebApp_OpenIDConnect_DotNet
             services.AddOptions();
 
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration, "AzureAdB2C")
-                    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { Configuration["TodoList:TodoListScope"] })
+                    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { Configuration["User:UserScope"] })
                     .AddInMemoryTokenCaches();
 
             // Add APIs
-            services.AddTodoListService(Configuration);
+            services.AddUserService(Configuration);
 
             services.AddControllersWithViews(options =>
             {
