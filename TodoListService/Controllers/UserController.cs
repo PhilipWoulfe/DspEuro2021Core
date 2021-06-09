@@ -29,6 +29,8 @@ using Microsoft.Identity.Web.Resource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TodoListService.Interfaces.Services;
 using TodoListService.Models;
 
 namespace TodoListService.Controllers
@@ -39,32 +41,14 @@ namespace TodoListService.Controllers
     public class UserController : Controller
     {
         const string scopeRequiredByAPI = "access_as_user";
-        // In-memory TodoList
-        private static readonly Dictionary<int, User> UserStore = new Dictionary<int, User>();
 
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ICosmosDbService _cosmosDbService;
 
-        public UserController(IHttpContextAccessor contextAccessor)
+        public UserController(IHttpContextAccessor contextAccessor, ICosmosDbService cosmosDbService)
         {
             this._contextAccessor = contextAccessor;
-
-            // Pre-populate with sample data
-            if (UserStore.Count == 0)
-            {
-                UserStore.Add(1, new User() { 
-                    Id = 1, 
-                    Oid = $"3fd3c66b-2957-4869-9559-9927ad0c7577",
-                    FirstName = "Philip",
-                    Surname = "Woulfe",
-                    UserName = "PhilipWoulfe",
-                    IsPaid = true,
-                    IsAdmin = true,
-                    CreatedDate = DateTime.Today,
-                    LastAmendedDate = DateTime.Today,
-                    UpdatedBy = 1
-
-                });
-            }
+            _cosmosDbService = cosmosDbService;
         }
 
         private string GetId()
@@ -75,80 +59,118 @@ namespace TodoListService.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<User> Get()
+        //[ActionName("Index")]
+        public async Task<IEnumerable<User>> Get()
         {
-            return UserStore.Values;
+            return await _cosmosDbService.GetUsersAsync("SELECT * FROM c");
         }
 
         // GET: api/values
         [HttpGet("{id}", Name = "Get")]
-        public User Get(int id)
+        public async Task<User> Get(string id)
         {
-            return UserStore.Values.FirstOrDefault(t => t.Id == id);
+            return await _cosmosDbService.GetUserAsync(id);
         }
 
-        // GET: api/values
-        [HttpGet("{oid}", Name = "UserExistsByOid")]
-        public bool GetIdByOid(string oid)
-        {
-            var exists = UserStore.Values.Select(t => t)
-                    .Where(t => t.Oid == oid)
-                    .Count() > 0;
+        //// GET: api/values
+        //[HttpGet("{oid}", Name = "UserExistsByOid")]
+        //public bool GetIdByOid(string oid)
+        //{
+        //    var exists = UserStore.Values.Select(t => t)
+        //            .Where(t => t.Oid == oid)
+        //            .Count() > 0;
 
-            return exists;
-        }
+        //    return exists;
+        //}
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            UserStore.Remove(id);
-        }
+
+
+        //[ActionName("Create")]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        //[ActionName("Create")]
+        //[ValidateAntiForgeryToken]
+        public async Task<User> Post([FromBody] User user)
         {
             if (Get(user.Id) != null)
             {
-                int id = UserStore.Values.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
-                User userNew = new User()
+                if (ModelState.IsValid)
                 {
-                    Id = id,
-                    Oid = user.Oid,
-                    FirstName = user.FirstName,
-                    Surname = user.Surname,
-                    UserName = user.UserName,
-                    IsPaid = user.IsPaid,
-                    IsAdmin = user.IsAdmin,
-                    CreatedDate = DateTime.Today,
-                    LastAmendedDate = DateTime.Today,
-                    UpdatedBy = 1
+                    user.Id = Guid.NewGuid().ToString();
+                    await _cosmosDbService.AddUserAsync(user);
+                    //return RedirectToAction("Index");
+                }
 
-                };
-
-                UserStore.Add(id, userNew);
+                return user;
             }
-            return Ok(user);
+            return user;
         }
 
         // PATCH api/values
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, [FromBody] User user)
+        //[ActionName("Edit")]
+        //[ValidateAntiForgeryToken]
+        public async Task<User> Patch(string id, [FromBody] User user)
         {
-            if (id != user.Id)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                await _cosmosDbService.UpdateUserAsync(id, user);
+                //return RedirectToAction("Index");
             }
 
-            if (UserStore.Values.FirstOrDefault(x => x.Id == id) == null)
-            {
-                return NotFound();
-            }
-
-            UserStore.Remove(id);
-            UserStore.Add(id, user);
-
-            return Ok(user);
+            return user;
         }
+
+        //[ActionName("Edit")]
+        //public async Task<ActionResult> EditAsync(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    User user = await _cosmosDbService.GetUserAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(user);
+        //}
+
+        //[ActionName("Delete")]
+        //public async Task<ActionResult> DeleteAsync(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    User item = await _cosmosDbService.GetUserAsync(id);
+        //    if (item == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(item);
+        //}
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete([Bind("Id")] string id)
+        {
+            await _cosmosDbService.DeleteUserAsync(id);
+            return Ok();
+        }
+
+        //[ActionName("Details")]
+        //public async Task<ActionResult> DetailsAsync(string id)
+        //{
+        //    return View(await _cosmosDbService.GetUserAsync(id));
+        //}
     }
 }

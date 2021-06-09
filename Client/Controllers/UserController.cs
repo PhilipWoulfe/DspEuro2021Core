@@ -28,7 +28,7 @@ namespace UserClient.Controllers
         }
 
         // GET: User/Details/5
-        public async Task<ActionResult> Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
             return View(await _userService.GetAsync(id));
         }
@@ -61,7 +61,7 @@ namespace UserClient.Controllers
         }
 
         // GET: User/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
             User user = await this._userService.GetAsync(id);
 
@@ -75,15 +75,16 @@ namespace UserClient.Controllers
 
         // POST: User/Edit/5
         [HttpPost]
+        [ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind("Id,Oid,FirstName,Surname,Username,IsPaid,IsAdmin,IsDeleted")] User user)
+        public async Task<ActionResult> Edit(string id, [Bind("Id,Oid,FirstName,Surname,Username,IsPaid,IsAdmin,IsDeleted")] User user)
         {
-            await _userService.EditAsync(user);
+            await _userService.EditAsync(id, user);
             return RedirectToAction("Index");
         }
 
         // GET: User/Delete/5
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(string id)
         {
             User user = await this._userService.GetAsync(id);
 
@@ -98,7 +99,7 @@ namespace UserClient.Controllers
         // POST: User/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, [Bind("Id,Oid,FirstName,Surname")] User user)
+        public async Task<ActionResult> Delete(string id, [Bind("Id,Oid,FirstName,Surname")] User user)
         {
             await _userService.DeleteAsync(id);
             return RedirectToAction("Index");

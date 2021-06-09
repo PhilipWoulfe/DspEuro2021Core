@@ -8,7 +8,7 @@ namespace TodoListService.Models
 {
     public class UserSelections : IEntity
     {
-        public int Id { get; set;  }
+        public string Id { get; set;  }
         public User User { get; set; }
         public Match Match { get; set; }
         public int HomeScore { get; set; }

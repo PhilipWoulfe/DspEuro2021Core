@@ -9,7 +9,7 @@ namespace TodoListClient.Models
     public class User
     {
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
         
         [JsonProperty(PropertyName = "oid")]
         public string Oid { get; set; }

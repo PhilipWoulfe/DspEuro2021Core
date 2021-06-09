@@ -65,7 +65,7 @@ namespace TodoListClient.Services
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string id)
         {
             await PrepareAuthenticatedClient();
 
@@ -79,14 +79,14 @@ namespace TodoListClient.Services
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
         }
 
-        public async Task<User> EditAsync(User user)
+        public async Task<User> EditAsync(string id, User user)
         {
             await PrepareAuthenticatedClient();
 
             var jsonRequest = JsonConvert.SerializeObject(user);
             var jsoncontent = new StringContent(jsonRequest, Encoding.UTF8, "application/json-patch+json");
 
-            var response = await _httpClient.PatchAsync($"{ _UserBaseAddress}/api/user/{user.Id}", jsoncontent);
+            var response = await _httpClient.PatchAsync($"{ _UserBaseAddress}/api/user/{id}", jsoncontent);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -123,7 +123,7 @@ namespace TodoListClient.Services
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<User> GetAsync(int id)
+        public async Task<User> GetAsync(string id)
         {
             await PrepareAuthenticatedClient();
 
