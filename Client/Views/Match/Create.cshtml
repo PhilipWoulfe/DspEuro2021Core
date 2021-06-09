@@ -1,0 +1,79 @@
+﻿@model TodoListClient.Models.Match
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using TodoListClient.Enums
+
+<h2>Create</h2>
+
+<h4>Match</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MatchApiId" class="control-label"></label>
+                <input asp-for="MatchApiId" class="form-control" />
+                <span asp-validation-for="MatchApiId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(r => r.HomeTeam, "Home Team")
+            </div>
+            <div class="form-group">
+                <label asp-for="HomeTeamScore" class="control-label"></label>
+                <input asp-for="HomeTeamScore" class="form-control" />
+                <span asp-validation-for="HomeTeamScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(r => r.AwayTeam, "Away Team")
+            </div>
+            <div class="form-group">
+                <label asp-for="AwayTeamScore" class="control-label"></label>
+                <input asp-for="AwayTeamScore" class="form-control" />
+                <span asp-validation-for="AwayTeamScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <div>
+                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MatchType" class="control-label"></label>
+                <div>
+                    <select asp-for="MatchType" asp-items="Html.GetEnumSelectList<MatchType>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Group" class="control-label"></label>
+                <div>
+                    <select asp-for="Group" asp-items="Html.GetEnumSelectList<Group>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -6,7 +6,7 @@ using TodoListService.Models;
 
 namespace TodoListService.Interfaces.Services
 {
-    public interface ICosmosDbService
+    public interface ICosmosUserDbService
     {
         Task<IEnumerable<User>> GetUsersAsync(string query);
         Task<User> GetUserAsync(string id);

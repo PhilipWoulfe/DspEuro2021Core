@@ -1,4 +1,4 @@
-namespace ToooListClient.Models
+namespace TodoListClient.Models
 {
     public class ErrorViewModel
     {

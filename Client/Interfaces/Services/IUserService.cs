@@ -28,7 +28,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TodoListClient.Models;
 
-namespace ToooListClient.Interfaces.Services
+namespace TodoListClient.Interfaces.Services
 {
     public interface IUserService
     {

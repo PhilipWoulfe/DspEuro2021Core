@@ -38,14 +38,14 @@ namespace TodoListService.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [RequiredScope(scopeRequiredByAPI)]
-    public class UserController : Controller
+    public class MatchController : Controller
     {
         const string scopeRequiredByAPI = "access_as_user";
 
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly ICosmosUserDbService _cosmosDbService;
+        private readonly ICosmosMatchDbService _cosmosDbService;
 
-        public UserController(IHttpContextAccessor contextAccessor, ICosmosUserDbService cosmosDbService)
+        public MatchController(IHttpContextAccessor contextAccessor, ICosmosMatchDbService cosmosDbService)
         {
             this._contextAccessor = contextAccessor;
             _cosmosDbService = cosmosDbService;
@@ -60,16 +60,16 @@ namespace TodoListService.Controllers
         // GET: api/values
         [HttpGet]
         //[ActionName("Index")]
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IEnumerable<Match>> Get()
         {
-            return await _cosmosDbService.GetUsersAsync("SELECT * FROM c");
+            return await _cosmosDbService.GetMatchesAsync("SELECT * FROM c");
         }
 
         // GET: api/values
         [HttpGet("{id}")]
-        public async Task<User> Get(string id)
+        public async Task<Match> Get(string id)
         {
-            return await _cosmosDbService.GetUserAsync(id);
+            return await _cosmosDbService.GetMatchAsync(id);
         }
 
         
@@ -77,40 +77,37 @@ namespace TodoListService.Controllers
         // POST api/values
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<User> Post([FromBody] User user)
+        public async Task<Match> Post([FromBody] Match match)
         {
-            if (Get(user.Id) == null)
-            {
-                if (ModelState.IsValid)
-                {
-                    user.Id = Guid.NewGuid().ToString();
-                    await _cosmosDbService.AddUserAsync(user);
-                    //return RedirectToAction("Index");
-                }
 
-                return user;
+            if (ModelState.IsValid)
+            {
+                match.Id = Guid.NewGuid().ToString();
+                await _cosmosDbService.AddMatchAsync(match);
+                //return RedirectToAction("Index");
             }
-            return user;
+
+            return match;
         }
 
         // PATCH api/values
         [HttpPatch("{id}")]
         //[ValidateAntiForgeryToken]
-        public async Task<User> Patch(string id, [FromBody] User user)
+        public async Task<Match> Patch(string id, [FromBody] Match match)
         {
             if (ModelState.IsValid)
             {
-                await _cosmosDbService.UpdateUserAsync(id, user);
+                await _cosmosDbService.UpdateMatchAsync(id, match);
                 //return RedirectToAction("Index");
             }
 
-            return user;
+            return match;
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([Bind("Id")] string id)
         {
-            await _cosmosDbService.DeleteUserAsync(id);
+            await _cosmosDbService.DeleteMatchAsync(id);
             return Ok();
         }
     }
