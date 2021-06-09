@@ -8,7 +8,7 @@ namespace TodoListService.Models
 {
     public class Team : IEntity
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int ApiId { get; set; }
         public string Name { get; set; }
         public string CrestUrl { get; set; }

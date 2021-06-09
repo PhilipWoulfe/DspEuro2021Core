@@ -8,7 +8,7 @@ namespace TodoListService.Interfaces.Models
 {
     interface IEntity
     {
-        int Id { get; set; }
+        string Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastAmendedDate { get; set; }
         public int UpdatedBy { get; set; }

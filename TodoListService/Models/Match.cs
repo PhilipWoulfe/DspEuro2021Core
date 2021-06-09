@@ -9,7 +9,7 @@ namespace TodoListService.Models
 {
     public class Match : IEntity
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int MatchApiId { get; set; }
         public Team HomeTeam { get; set; }
         public Team AwayTeam { get; set; }

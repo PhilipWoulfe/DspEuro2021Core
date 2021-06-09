@@ -33,10 +33,10 @@ namespace ToooListClient.Interfaces.Services
     public interface IUserService
     {
         Task<User> AddAsync(User user);
-        Task DeleteAsync(int id);
-        Task<User> EditAsync(User user);
+        Task DeleteAsync(string id);
+        Task<User> EditAsync(string id, User user);
         Task<IEnumerable<User>> GetAsync();
-        Task<User> GetAsync(int id);
+        Task<User> GetAsync(string id);
         Task<bool> GetUserByOid(string oid);
 
     }
