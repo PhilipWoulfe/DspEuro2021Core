@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web.UI;
 
-namespace ToooListClient
+namespace TodoListClient
 {
     public class Startup
     {
@@ -47,6 +47,7 @@ namespace ToooListClient
 
             // Add APIs
             services.AddUserService(Configuration);
+            services.AddMatchService(Configuration);
 
             services.AddControllersWithViews(options =>
             {

@@ -6,16 +6,15 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Configuration;
 using TodoListService.Interfaces.Services;
-using User = TodoListService.Models.User;
 using System;
 
 namespace TodoListService.Services
 {
-    public class CosmosDbService : ICosmosDbService
+    public class CosmosDbMatchService : ICosmosMatchDbService
     {
         private Container _container;
 
-        public CosmosDbService(
+        public CosmosDbMatchService(
             CosmosClient dbClient,
             string databaseName,
             string containerName)
@@ -23,11 +22,11 @@ namespace TodoListService.Services
             this._container = dbClient.GetContainer(databaseName, containerName);
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task AddMatchAsync(Match match)
         {
             try
             {
-                var v = await this._container.CreateItemAsync<User>(user, new PartitionKey(user.Id));
+                var v = await this._container.CreateItemAsync<Match>(match, new PartitionKey(match.Id));
             }
             catch(Exception e)
             {
@@ -35,16 +34,16 @@ namespace TodoListService.Services
             }
         }
 
-        public async Task DeleteUserAsync(string id)
+        public async Task DeleteMatchAsync(string id)
         {
-            await this._container.DeleteItemAsync<User>(id, new PartitionKey(id));
+            await this._container.DeleteItemAsync<Match>(id, new PartitionKey(id));
         }
 
-        public async Task<User> GetUserAsync(string id)
+        public async Task<Match> GetMatchAsync(string id)
         {
             try
             {
-                ItemResponse<User> response = await this._container.ReadItemAsync<User>(id, new PartitionKey(id));
+                ItemResponse<Match> response = await this._container.ReadItemAsync<Match>(id, new PartitionKey(id));
                 return response.Resource;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -54,10 +53,10 @@ namespace TodoListService.Services
 
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync(string queryString)
+        public async Task<IEnumerable<Match>> GetMatchesAsync(string queryString)
         {
-            var query = this._container.GetItemQueryIterator<User>(new QueryDefinition(queryString));
-            List<User> results = new List<User>();
+            var query = this._container.GetItemQueryIterator<Match>(new QueryDefinition(queryString));
+            List<Match> results = new List<Match>();
             while (query.HasMoreResults)
             {
                 var response = await query.ReadNextAsync();
@@ -68,9 +67,9 @@ namespace TodoListService.Services
             return results;
         }
 
-        public async Task UpdateUserAsync(string id, User User)
+        public async Task UpdateMatchAsync(string id, Match Match)
         {
-            await this._container.UpsertItemAsync<User>(User, new PartitionKey(id));
+            await this._container.UpsertItemAsync<Match>(Match, new PartitionKey(id));
         }
     }
 }

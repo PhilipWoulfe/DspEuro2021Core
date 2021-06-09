@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ToooListClient
+namespace TodoListClient
 {
     public class Program
     {

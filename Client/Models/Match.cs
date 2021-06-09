@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoListService.Enums;
-using TodoListService.Interfaces.Models;
+using TodoListClient.Enums;
 
-namespace TodoListService.Models
+namespace TodoListClient.Models
 {
-    public class Match : IEntity
+    public class Match
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -36,15 +35,5 @@ namespace TodoListService.Models
 
         [JsonProperty(PropertyName = "group")]
         public Group Group { get; set; }
-
-        [JsonProperty(PropertyName = "createdDate")]
-        public DateTime CreatedDate { get; set; }
-
-        [JsonProperty(PropertyName = "lastAmendedDate")]
-        public DateTime LastAmendedDate { get; set; }
-
-        [JsonProperty(PropertyName = "updatedBy")]
-        public int UpdatedBy { get; set; }
-
     }
 }

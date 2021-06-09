@@ -19,47 +19,47 @@ using TodoListClient.Interfaces.Services;
 
 namespace TodoListClient.Services
 {
-    public static class UserServiceExtensions
+    public static class MatchServiceExtensions
     {
-        public static void AddUserService(this IServiceCollection services, IConfiguration configuration)
+        public static void AddMatchService(this IServiceCollection services, IConfiguration configuration)
         {
             // https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
-            services.AddHttpClient<IUserService, UserService>();
+            services.AddHttpClient<IMatchService, MatchService>();
         }
     }
 
-    public class UserService : IUserService
+    public class MatchService : IMatchService
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly HttpClient _httpClient;
-        private readonly string _user = string.Empty;
-        private readonly string _userBaseAddress = string.Empty;
+        private readonly string _match = string.Empty;
+        private readonly string _matchBaseAddress = string.Empty;
         private readonly ITokenAcquisition _tokenAcquisition;
 
-        public UserService(ITokenAcquisition tokenAcquisition, HttpClient httpClient, IConfiguration configuration, IHttpContextAccessor contextAccessor)
+        public MatchService(ITokenAcquisition tokenAcquisition, HttpClient httpClient, IConfiguration configuration, IHttpContextAccessor contextAccessor)
         {
             _httpClient = httpClient;
             _tokenAcquisition = tokenAcquisition;
             _contextAccessor = contextAccessor;
-            _user = configuration["User:UserScope"];
-            _userBaseAddress = configuration["User:UserBaseAddress"];
+            _match = configuration["User:UserScope"];
+            _matchBaseAddress = configuration["User:UserBaseAddress"];
         }
 
-        public async Task<User> AddAsync(User user)
+        public async Task<Match> AddAsync(Match match)
         {
             await PrepareAuthenticatedClient();
 
-            var jsonRequest = JsonConvert.SerializeObject(user);
+            var jsonRequest = JsonConvert.SerializeObject(match);
             var jsoncontent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-            var response = await this._httpClient.PostAsync($"{ _userBaseAddress}/api/user", jsoncontent);
+            var response = await this._httpClient.PostAsync($"{ _matchBaseAddress}/api/match", jsoncontent);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                user = JsonConvert.DeserializeObject<User>(content);
+                match = JsonConvert.DeserializeObject<Match>(content);
 
-                return user;
+                return match;
             }
 
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
@@ -69,7 +69,7 @@ namespace TodoListClient.Services
         {
             await PrepareAuthenticatedClient();
 
-            var response = await this._httpClient.DeleteAsync($"{ _userBaseAddress}/api/user/{id}");
+            var response = await this._httpClient.DeleteAsync($"{ _matchBaseAddress}/api/match/{id}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -79,37 +79,69 @@ namespace TodoListClient.Services
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
         }
 
-        public async Task<User> EditAsync(string id, User user)
+        public async Task<Match> EditAsync(string id, Match match)
         {
             await PrepareAuthenticatedClient();
 
-            var jsonRequest = JsonConvert.SerializeObject(user);
+            var jsonRequest = JsonConvert.SerializeObject(match);
             var jsoncontent = new StringContent(jsonRequest, Encoding.UTF8, "application/json-patch+json");
 
-            var response = await _httpClient.PatchAsync($"{ _userBaseAddress}/api/user/{id}", jsoncontent);
+            var response = await _httpClient.PatchAsync($"{ _matchBaseAddress}/api/match/{id}", jsoncontent);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                user = JsonConvert.DeserializeObject<User>(content);
+                match = JsonConvert.DeserializeObject<Match>(content);
 
-                return user;
+                return match;
             }
 
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
         }
 
-        public async Task<IEnumerable<User>> GetAsync()
+        public async Task<IEnumerable<Match>> GetAsync()
         {
             await PrepareAuthenticatedClient();
 
-            var response = await _httpClient.GetAsync($"{ _userBaseAddress}/api/user");
+            var response = await _httpClient.GetAsync($"{ _matchBaseAddress}/api/match");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                IEnumerable<User> user = JsonConvert.DeserializeObject<IEnumerable<User>>(content);
+                IEnumerable<Match> match = JsonConvert.DeserializeObject<IEnumerable<Match>>(content);
 
-                return user;
+                return match;
+            }
+
+            throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+        }
+
+        public async Task<Match> GetAsync(string id)
+        {
+            await PrepareAuthenticatedClient();
+
+            var response = await _httpClient.GetAsync($"{ _matchBaseAddress}/api/match/{id}");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Match match = JsonConvert.DeserializeObject<Match>(content);
+
+                return match;
+            }
+
+            throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+        }
+
+        public async Task<bool> GetMatchByOid(string oid)
+        {
+            await PrepareAuthenticatedClient();
+
+            var response = await _httpClient.GetAsync($"{ _matchBaseAddress}/api/match/{oid}");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                bool match = JsonConvert.DeserializeObject<bool>(content);
+
+                return match;
             }
 
             throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
@@ -117,42 +149,10 @@ namespace TodoListClient.Services
 
         private async Task PrepareAuthenticatedClient()
         {
-            var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { _user });
+            var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { _match });
             Debug.WriteLine($"access token-{accessToken}");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
-        public async Task<User> GetAsync(string id)
-        {
-            await PrepareAuthenticatedClient();
-
-            var response = await _httpClient.GetAsync($"{ _userBaseAddress}/api/user/{id}");
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                User user = JsonConvert.DeserializeObject<User>(content);
-
-                return user;
-            }
-
-            throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
-        }
-
-        public async Task<bool> GetUserByOid(string oid)
-        {
-            await PrepareAuthenticatedClient();
-
-            var response = await _httpClient.GetAsync($"{ _userBaseAddress}/api/user/{oid}");
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                bool user = JsonConvert.DeserializeObject<bool>(content);
-
-                return user;
-            }
-
-            throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
         }
     }
 }
