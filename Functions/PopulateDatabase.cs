@@ -55,9 +55,28 @@ namespace DspEuro2021.Functions
             {
                 foreach (var match in matches)
                 {
+
+                    var id = match.Id;
+                    var utcDate = match.UtcDate;
+                    var status = match.Status;
+                    var stage = match.Stage;
+                    var group = match.Group;
+                    var lastUpdated = match.LastUpdated;
+                    var score = match.Score;
+                    var homeTeam = match.HomeTeam;
+                    var awayTeam = match.AwayTeam;
+
                     await documentsOut.AddAsync(new
                     {
-                        match
+                        id,
+                        utcDate,
+                        status,
+                        stage,
+                        group,
+                        lastUpdated,
+                        score,
+                        homeTeam,
+                        awayTeam
                     });
                 }
             }
