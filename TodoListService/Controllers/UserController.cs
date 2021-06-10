@@ -79,18 +79,14 @@ namespace TodoListService.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<User> Post([FromBody] User user)
         {
-            if (Get(user.Id) == null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    user.Id = Guid.NewGuid().ToString();
-                    await _cosmosDbService.AddUserAsync(user);
-                    //return RedirectToAction("Index");
-                }
-
-                return user;
+                await _cosmosDbService.AddUserAsync(user);
+                //return RedirectToAction("Index");
             }
+
             return user;
+
         }
 
         // PATCH api/values
