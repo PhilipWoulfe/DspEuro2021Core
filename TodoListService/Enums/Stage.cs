@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TodoListService.Enums
 {
-    public enum MatchType
+    public enum Stage
     {
         GROUP_STAGE,
         LAST_16,
