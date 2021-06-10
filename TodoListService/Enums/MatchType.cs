@@ -7,10 +7,10 @@ namespace TodoListService.Enums
 {
     public enum MatchType
     {
-        GROUP,
-        ROUND_OF_16,
-        QUARTER_FINALS,
-        SEMI_FINALS,
+        GROUP_STAGE,
+        LAST_16,
+        QUARTER_FINAL,
+        SEMI_FINAL,
         FINAL
     }
 }
