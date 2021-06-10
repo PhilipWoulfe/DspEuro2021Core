@@ -17,28 +17,37 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MatchApiId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HomeTeam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HomeTeamScore)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AwayTeam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AwayTeamScore)
+                @Html.DisplayNameFor(model => model.UtcDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MatchType)
+                @Html.DisplayNameFor(model => model.Stage)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Group)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score.FullTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score.ExtraTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score.Penalties)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
             </th>
             <th></th>
         </tr>
@@ -50,28 +59,37 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MatchApiId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomeTeam.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomeTeamScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwayTeam.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwayTeamScore)
+                @Html.DisplayFor(modelItem => item.UtcDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MatchType)
+                @Html.DisplayFor(modelItem => item.Stage)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Group)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score.FullTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score.ExtraTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score.Penalties)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwayTeam)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace TodoListClient.Enums
 {
-    public enum MatchType
+    public enum Stage
     {
-        GROUP,
-        ROUND_OF_16,
-        QUARTER_FINALS,
-        SEMI_FINALS,
+        GROUP_STAGE,
+        LAST_16,
+        QUARTER_FINAL,
+        SEMI_FINAL,
         FINAL
     }
 }

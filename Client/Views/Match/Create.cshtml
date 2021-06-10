@@ -16,25 +16,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MatchApiId" class="control-label"></label>
-                <input asp-for="MatchApiId" class="form-control" />
-                <span asp-validation-for="MatchApiId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @Html.EditorFor(r => r.HomeTeam, "Home Team")
-            </div>
-            <div class="form-group">
-                <label asp-for="HomeTeamScore" class="control-label"></label>
-                <input asp-for="HomeTeamScore" class="form-control" />
-                <span asp-validation-for="HomeTeamScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @Html.EditorFor(r => r.AwayTeam, "Away Team")
-            </div>
-            <div class="form-group">
-                <label asp-for="AwayTeamScore" class="control-label"></label>
-                <input asp-for="AwayTeamScore" class="form-control" />
-                <span asp-validation-for="AwayTeamScore" class="text-danger"></span>
+                <label asp-for="UtcDate" class="control-label"></label>
+                <input asp-for="UtcDate" class="form-control" />
+                <span asp-validation-for="UtcDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
@@ -46,12 +30,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="MatchType" class="control-label"></label>
+                <label asp-for="Stage" class="control-label"></label>
                 <div>
-                    <select asp-for="MatchType" asp-items="Html.GetEnumSelectList<MatchType>()">
+                    <select asp-for="Stage" asp-items="Html.GetEnumSelectList<Stage>()">
                         <option selected="selected" value="">Please select</option>
                     </select>
-                    <span asp-validation-for="Status" class="text-danger" />
+                    <span asp-validation-for="Stage" class="text-danger" />
                 </div>
             </div>
             <div class="form-group">
@@ -62,6 +46,39 @@
                     </select>
                     <span asp-validation-for="Status" class="text-danger" />
                 </div>
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score, "Score")
+            </div>
+            <label class="control-label">Full Time Home</label>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score.FullTime.HomeTeam, "Full Time Home")
+            </div>
+            <label class="control-label">Full Time Away</label>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score.FullTime.AwayTeam, "Full Time Away")
+            </div>
+            <label class="control-label">Extra Time Home</label>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score.ExtraTime.HomeTeam, "Extra Time Home")
+            </div>
+            <label class="control-label">Extra Time Away</label>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score.ExtraTime.AwayTeam, "Extra Time Away")
+            </div>
+            <label class="control-label">Penalty Home</label>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score.Penalties.HomeTeam, "Penalty Home")
+            </div>
+            <label class="control-label">Penalty Home</label>
+            <div class="form-group">
+                @Html.EditorFor(r => r.Score.Penalties.AwayTeam, "Penalty Away")
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(r => r.HomeTeam, "HomeTeam")
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(r => r.AwayTeam, "AwayTeam")
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

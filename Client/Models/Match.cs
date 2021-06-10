@@ -12,28 +12,28 @@ namespace TodoListClient.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "matchApiId")]
-        public int MatchApiId { get; set; }
+        [JsonProperty(PropertyName = "utcDate")]
+        public DateTime UtcDate { get; set; }
+
+        [JsonProperty(PropertyName = "status")]
+        public Status Status { get; set; }
+
+        [JsonProperty(PropertyName = "stage")]
+        public Stage Stage { get; set; }
+
+        [JsonProperty(PropertyName = "group")]
+        public Group? Group { get; set; }
+
+        [JsonProperty(PropertyName = "lastUpdated")]
+        public DateTime LastUpdated { get; set; }
+
+        [JsonProperty(PropertyName = "score")]
+        public Score Score { get; set; }
 
         [JsonProperty(PropertyName = "homeTeam")]
         public Team HomeTeam { get; set; }
 
         [JsonProperty(PropertyName = "awayTeam")]
         public Team AwayTeam { get; set; }
-
-        [JsonProperty(PropertyName = "homeTeamScore")]
-        public int HomeTeamScore { get; set; }
-
-        [JsonProperty(PropertyName = "AwayTeamScore")]
-        public int AwayTeamScore { get; set; }
-
-        [JsonProperty(PropertyName = "status")]
-        public Status Status { get; set; }
-
-        [JsonProperty(PropertyName = "matchType")]
-        public MatchType MatchType { get; set; }
-
-        [JsonProperty(PropertyName = "group")]
-        public Group Group { get; set; }
     }
 }
