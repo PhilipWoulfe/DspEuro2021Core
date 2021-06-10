@@ -12,9 +12,6 @@ namespace TodoListService.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "oid")]
-        public string Oid { get; set; }
-
         [JsonProperty(PropertyName = "firstName")]
         public string FirstName { get; set; }
 

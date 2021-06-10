@@ -43,7 +43,7 @@ namespace UserClient.Controllers
             var username = identity.Name;
             var v = identity.Claims;
             User user = new User() { 
-                Oid = userId,
+                Id = userId,
                 //FirstName = userFirstName,
                 //Surname = userSurname,
                 Username = username

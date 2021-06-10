@@ -46,7 +46,7 @@ namespace TodoListClient.Controllers
 
                             _userService.AddAsync(new User
                             {
-                                Oid = userId,
+                                Id = userId,
                                 FirstName = userFirstName,
                                 Surname = userSurname,
                                 Username = username
