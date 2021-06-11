@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using TodoListClient.Models;
 using TodoListClient.Interfaces.Services;
+using System;
 
 namespace TodoListClient.Controllers
 {
@@ -25,7 +26,7 @@ namespace TodoListClient.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var identity = _contextAccessor.HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
             if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated) { 
@@ -33,7 +34,7 @@ namespace TodoListClient.Controllers
                 var userSurname = identity.FindFirst(System.Security.Claims.ClaimTypes.Surname).Value;
                 var userId = identity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
                 var username = identity.Name;
-
+                User user;
                 foreach (var claim in identity.Claims)
                 {
                     if (claim.Type == "newUser")
@@ -44,7 +45,7 @@ namespace TodoListClient.Controllers
                             //var x = await _userService.GetAsync(1);
                             //var v = await _userService.GetUserByOid(userId);
 
-                            _userService.AddAsync(new User
+                            user = await _userService.AddAsync(new User
                             {
                                 Id = userId,
                                 FirstName = userFirstName,
@@ -55,6 +56,17 @@ namespace TodoListClient.Controllers
                             break;
                         }
                     }
+                }
+
+
+                try
+                {
+                    user = await _userService.GetAsync(userId);
+                    _contextAccessor.HttpContext.Response.Cookies.Append("IsAdmin", user.IsAdmin.ToString());
+                }
+                catch (Exception e)
+                {
+                    Response.Cookies.Append("IsAdmin", false.ToString());
                 }
             }
 
