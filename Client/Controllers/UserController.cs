@@ -70,7 +70,7 @@ namespace UserClient.Controllers
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Oid,FirstName,Surname,Username")] User user)
+        public async Task<ActionResult> Create([Bind("Id,FirstName,Surname,Username,IsPaid,IsAdmin,IsDeleted")] User user)
         {
             var isAdmin = await IsAdministrator();
 
@@ -107,7 +107,7 @@ namespace UserClient.Controllers
         [HttpPost]
         [ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string id, [Bind("Id,Oid,FirstName,Surname,Username,IsPaid,IsAdmin,IsDeleted")] User user)
+        public async Task<ActionResult> Edit(string id, [Bind("Id,FirstName,Surname,Username,IsPaid,IsAdmin,IsDeleted")] User user)
         {
             var isAdmin = await IsAdministrator();
 

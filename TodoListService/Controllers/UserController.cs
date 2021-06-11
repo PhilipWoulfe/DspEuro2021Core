@@ -44,11 +44,13 @@ namespace TodoListService.Controllers
 
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ICosmosUserDbService _cosmosDbService;
+        private readonly ICosmosMatchDbService _cosmosMatchDbService;
 
-        public UserController(IHttpContextAccessor contextAccessor, ICosmosUserDbService cosmosDbService)
+        public UserController(IHttpContextAccessor contextAccessor, ICosmosUserDbService cosmosDbService, ICosmosMatchDbService cosmosMatchDbService)
         {
             this._contextAccessor = contextAccessor;
             _cosmosDbService = cosmosDbService;
+            _cosmosMatchDbService = cosmosMatchDbService;
         }
 
         private string GetId()
@@ -81,8 +83,22 @@ namespace TodoListService.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _cosmosDbService.AddUserAsync(user);
+                
                 //return RedirectToAction("Index");
+                var matches = await _cosmosMatchDbService.GetMatchesAsync("SELECT * FROM c");
+                user.UserSelection = new();
+                foreach (var match in matches)
+                {
+                    
+                    user.UserSelection.Add(new UserSelection()
+                    {
+                        Id = match.Id,
+                        HomeTeam = match.HomeTeam,
+                        AwayTeam = match.AwayTeam
+                    });
+                }
+
+                await _cosmosDbService.AddUserAsync(user);
             }
 
             return user;

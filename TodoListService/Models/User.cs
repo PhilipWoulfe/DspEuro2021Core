@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoListService.Interfaces.Models;
 
 namespace TodoListService.Models
 {
-    public class User : IEntity
+    public class User
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -38,6 +37,9 @@ namespace TodoListService.Models
 
         [JsonProperty(PropertyName = "updatedBy")]
         public int UpdatedBy { get; set; }
+
+        [JsonProperty(PropertyName = "userSelection")]
+        public List<UserSelection> UserSelection { get; set; }
 
     }
 }
