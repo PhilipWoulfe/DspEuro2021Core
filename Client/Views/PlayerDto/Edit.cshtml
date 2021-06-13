@@ -1,0 +1,116 @@
+﻿@model TodoListClient.Dtos.PlayerDto
+
+@using System.Globalization;
+@using TodoListClient.Enums;
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body-content">
+    <h2>Edit</h2>
+
+    <h2>@Html.DisplayFor(model => model.PlayerName)</h2>
+    <hr />
+    <div class="row">
+        <div class="contain row">
+            <hr />
+            <form asp-action="Edit">
+                <div class="left">
+                    <table class="table column">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th class="cAlign">
+                                    Home Team
+                                </th>
+                                <th class="cAlign">
+                                </th>
+                                <th class="cAlign">
+                                </th>
+                                <th class="cAlign">
+                                    Away Team
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var groupList = new List<Stage>();
+
+                                for (int i = 0; i < Model.Matches.Count(); i++)
+                                {
+
+                                    if (!groupList.Contains(Model.Matches[i].Stage))
+                                    {
+                                        <tr><th colspan="7" scope="colgroup">@Model.Matches[i].Stage</th></tr>
+                                        groupList.Add(Model.Matches[i].Stage);
+                                    }
+                                    <tr>
+                                        @Html.HiddenFor(x => Model.Matches[i].Id)
+                                        <td>
+                                            @Model.Matches[i].UtcDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                        </td>
+                                        <td>
+                                            @Model.Matches[i].UtcDate.ToString("HH:mm", CultureInfo.InvariantCulture)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(modelItem => Model.Matches[i].Status, new { @class = "form-control", @readonly = "readonly" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(x => Model.Matches[i].HomeTeam, new { @class = "form-control" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(x => Model.Matches[i].HomeScore, new { @class = "form-control" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(x => Model.Matches[i].AwayScore, new { @class = "form-control" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(x => Model.Matches[i].AwayTeam, new { @class = "form-control" })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="right column">
+                    <table class="table column">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Golden Boot
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.EditorFor(model => model.GoldenBoot)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Details">Back to Details</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</div>

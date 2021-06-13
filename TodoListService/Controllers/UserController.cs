@@ -110,9 +110,18 @@ namespace TodoListService.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<User> Patch(string id, [FromBody] User user)
         {
+            var us = await _cosmosDbService.GetUserAsync(id);
+            us.FirstName = user.FirstName;
+            us.Surname = user.Surname;
+            us.Username = user.Username;
+            us.IsPaid = user.IsPaid;
+            us.IsAdmin = user.IsAdmin;
+            us.IsDeleted = user.IsDeleted;
+            //us.UserSelection = user.UserSelection;
+
             if (ModelState.IsValid)
             {
-                await _cosmosDbService.UpdateUserAsync(id, user);
+                await _cosmosDbService.UpdateUserAsync(id, us);
                 //return RedirectToAction("Index");
             }
 

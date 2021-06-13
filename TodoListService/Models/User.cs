@@ -27,7 +27,7 @@ namespace TodoListService.Models
         public bool IsAdmin { get; set; }
 
         [JsonProperty(PropertyName = "isDeleted")]
-        public bool Deleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         [JsonProperty(PropertyName = "createdDate")]
         public DateTime CreatedDate { get; set; }
@@ -40,6 +40,9 @@ namespace TodoListService.Models
 
         [JsonProperty(PropertyName = "userSelection")]
         public List<UserSelection> UserSelection { get; set; }
+
+        [JsonProperty(PropertyName = "goldenBoot")]
+        public string GoldenBoot { get; set; }
 
     }
 }

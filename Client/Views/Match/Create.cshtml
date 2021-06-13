@@ -6,91 +6,91 @@
 }
 
 @using TodoListClient.Enums
+<div class="container body-content">
+    <h2>Create</h2>
 
-<h2>Create</h2>
+    <h4>Match</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UtcDate" class="control-label"></label>
+                    <input asp-for="UtcDate" class="form-control" />
+                    <span asp-validation-for="UtcDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <div>
+                        <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Stage" class="control-label"></label>
+                    <div>
+                        <select asp-for="Stage" asp-items="Html.GetEnumSelectList<Stage>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="Stage" class="text-danger" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Group" class="control-label"></label>
+                    <div>
+                        <select asp-for="Group" asp-items="Html.GetEnumSelectList<Group>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score, "Score")
+                </div>
+                <label class="control-label">Full Time Home</label>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score.FullTime.HomeTeam, "Full Time Home")
+                </div>
+                <label class="control-label">Full Time Away</label>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score.FullTime.AwayTeam, "Full Time Away")
+                </div>
+                <label class="control-label">Extra Time Home</label>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score.ExtraTime.HomeTeam, "Extra Time Home")
+                </div>
+                <label class="control-label">Extra Time Away</label>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score.ExtraTime.AwayTeam, "Extra Time Away")
+                </div>
+                <label class="control-label">Penalty Home</label>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score.Penalties.HomeTeam, "Penalty Home")
+                </div>
+                <label class="control-label">Penalty Home</label>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.Score.Penalties.AwayTeam, "Penalty Away")
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.HomeTeam, "HomeTeam")
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(r => r.AwayTeam, "AwayTeam")
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
 
-<h4>Match</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UtcDate" class="control-label"></label>
-                <input asp-for="UtcDate" class="form-control" />
-                <span asp-validation-for="UtcDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <div>
-                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()">
-                        <option selected="selected" value="">Please select</option>
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stage" class="control-label"></label>
-                <div>
-                    <select asp-for="Stage" asp-items="Html.GetEnumSelectList<Stage>()">
-                        <option selected="selected" value="">Please select</option>
-                    </select>
-                    <span asp-validation-for="Stage" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Group" class="control-label"></label>
-                <div>
-                    <select asp-for="Group" asp-items="Html.GetEnumSelectList<Group>()">
-                        <option selected="selected" value="">Please select</option>
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score, "Score")
-            </div>
-            <label class="control-label">Full Time Home</label>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score.FullTime.HomeTeam, "Full Time Home")
-            </div>
-            <label class="control-label">Full Time Away</label>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score.FullTime.AwayTeam, "Full Time Away")
-            </div>
-            <label class="control-label">Extra Time Home</label>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score.ExtraTime.HomeTeam, "Extra Time Home")
-            </div>
-            <label class="control-label">Extra Time Away</label>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score.ExtraTime.AwayTeam, "Extra Time Away")
-            </div>
-            <label class="control-label">Penalty Home</label>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score.Penalties.HomeTeam, "Penalty Home")
-            </div>
-            <label class="control-label">Penalty Home</label>
-            <div class="form-group">
-                @Html.EditorFor(r => r.Score.Penalties.AwayTeam, "Penalty Away")
-            </div>
-            <div class="form-group">
-                @Html.EditorFor(r => r.HomeTeam, "HomeTeam")
-            </div>
-            <div class="form-group">
-                @Html.EditorFor(r => r.AwayTeam, "AwayTeam")
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
