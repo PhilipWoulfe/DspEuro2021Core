@@ -21,7 +21,7 @@ namespace DspEuro2021.Functions
 
         [FunctionName("PopulateDatabase")]
         public static async void Run(
-            [TimerTrigger("0 */1 * * * *")] TimerInfo myTimer,
+            [TimerTrigger("*/5 12-21 * * *")] TimerInfo myTimer,
             [CosmosDB(
                 databaseName: "Euro",
                 collectionName: "Match",

@@ -48,6 +48,7 @@ namespace TodoListClient
             // Add APIs
             services.AddUserService(Configuration);
             services.AddMatchService(Configuration);
+            services.AddPlayerService(Configuration);
 
             services.AddControllersWithViews(options =>
             {

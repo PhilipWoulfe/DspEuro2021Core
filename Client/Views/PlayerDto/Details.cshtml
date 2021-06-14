@@ -1,0 +1,199 @@
+﻿@model TodoListClient.Dtos.PlayerDto
+
+@using System.Globalization;
+@using TodoListClient.Enums;
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body-content">
+
+    <h2>@Html.DisplayFor(model => model.PlayerName)</h2>
+    <div class="contain row">
+        <hr />
+        <div class="left">
+            <table class="table column">
+                <thead>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th class="cAlign">
+                            Home Team
+                        </th>
+                        <th class="cAlign">
+                        </th>
+                        <th class="cAlign">
+                        </th>
+                        <th class="cAlign">
+                            Away Team
+                        </th>
+                        <th class="cAlign">
+                            Points
+                        </th>
+                        <th class="cAlign">
+                            Reasons
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var groupList = new List<Stage>();
+                        foreach (var item in Model.Matches)
+                        {
+
+                            if (!groupList.Contains(item.Stage))
+                            {
+                                <tr><th colspan="7" scope="colgroup">@item.Stage</th></tr>
+                                groupList.Add(item.Stage);
+                            }
+                <tr>
+                    <td>
+                        @item.UtcDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                    </td>
+                    <td>
+                        @item.UtcDate.ToString("HH:mm", CultureInfo.InvariantCulture)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td class="cAlign">
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td class="cAlign">
+                        @Html.DisplayFor(modelItem => item.HomeScore)
+                    </td>
+                    <td class="cAlign">
+                        @Html.DisplayFor(modelItem => item.AwayScore)
+                    </td>
+                    <td class="cAlign">
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td class="cAlign">
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </td>
+                    <td data-toggle="tooltip" title="Details" data-placement="right">
+                        @Html.DisplayFor(modelItem => item.Reasons)
+                    </td>
+                </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="right column">
+            @foreach (var item in Model.GroupTables)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>
+                                @item.Key
+                            </th>
+                            <th>
+                                P
+                            </th>
+                            <th>
+                                W
+                            </th>
+                            <th>
+                                D
+                            </th>
+                            <th>
+                                L
+                            </th>
+                            <th>
+                                GF
+                            </th>
+                            <th>
+                                GA
+                            </th>
+                            <th>
+                                GD
+                            </th>
+                            <th>
+                                PTS
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 1;
+                            foreach (var team in item.Value)
+                            {
+                                <tr>
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.Played)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.Won)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.Drawn)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.Lost)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.GoalsFor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.GoalsAgainst)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.GoalDifference)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => team.Points)
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+            <table class="table column">
+                <thead>
+                    <tr>
+                        <th>
+                            Golden Boot
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => model.GoldenBoot)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        @{
+            bool isAdmin = Boolean.TryParse(ViewContext.HttpContext.Request.Cookies["IsAdmin"], out isAdmin);
+            @if (User.Identity.IsAuthenticated && isAdmin)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) 
+            }
+
+        }
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

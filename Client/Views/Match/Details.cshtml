@@ -4,88 +4,89 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container body-content">
+    <h2>Details</h2>
 
-<h2>Details</h2>
-
-<div>
-    <h4>Match</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UtcDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UtcDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Stage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Stage)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Group)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Group)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastUpdated)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LastUpdated)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Score)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Score)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Score.FullTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Score.FullTime)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Score.ExtraTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Score.ExtraTime)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Score.Penalties)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Score.Penalties)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HomeTeam)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HomeTeam)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AwayTeam)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AwayTeam)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    <div>
+        <h4>Match</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UtcDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UtcDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Stage)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Stage)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Group)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Group)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastUpdated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastUpdated)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Score)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Score)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Score.FullTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Score.FullTime)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Score.ExtraTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Score.ExtraTime)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Score.Penalties)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Score.Penalties)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.HomeTeam)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AwayTeam)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>

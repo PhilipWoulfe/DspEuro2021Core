@@ -47,12 +47,12 @@ body {
         left: 0;
         display: block;
         transform: rotate(-10deg);
-        color: darkblue;
+        color: red;
         font-family: 'Comic Sans MS';
     }
 
 .year:after {
-    content: '202';
+    content: '2020';
 }
 
 .comp:after {
@@ -63,23 +63,12 @@ body {
     content: 'EURO';
 }
 
-.zero:after {
-    top: -1rem;
-    content: '0';
-}
-
-.one:after {
-    top: -1.5rem;
-    color: red;
-    content: '1';
-}
-
-
 .jumbotron {
-    background-image: url('../images/worldCupMain.jpg');
-    height: 500px;
+    background-image: url('../images/worldCupMainTape.jpg');
+    height: 600px;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
 }
 
 
@@ -128,4 +117,43 @@ body {
     border: 0;
     margin: 0;
     padding: 0;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+/* Container for flexboxes */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left {
+    flex: 60%;
+    padding: 20px;
+}
+
+.right {
+    flex: 33%;
+    padding: 20px;
+}
+
+/* On screens that are 992px wide or less, go from four columns to two columns */
+@media screen and (max-width: 992px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+/* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+.cAlign {
+    text-align: center;
 }

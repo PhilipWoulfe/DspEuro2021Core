@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using TodoListService.Enums;
-using TodoListService.Interfaces.Models;
 
 namespace TodoListService.Models
 {

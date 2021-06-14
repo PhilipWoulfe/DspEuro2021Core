@@ -44,11 +44,13 @@ namespace TodoListService.Controllers
 
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ICosmosUserDbService _cosmosDbService;
+        private readonly ICosmosMatchDbService _cosmosMatchDbService;
 
-        public UserController(IHttpContextAccessor contextAccessor, ICosmosUserDbService cosmosDbService)
+        public UserController(IHttpContextAccessor contextAccessor, ICosmosUserDbService cosmosDbService, ICosmosMatchDbService cosmosMatchDbService)
         {
             this._contextAccessor = contextAccessor;
             _cosmosDbService = cosmosDbService;
+            _cosmosMatchDbService = cosmosMatchDbService;
         }
 
         private string GetId()
@@ -81,8 +83,22 @@ namespace TodoListService.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _cosmosDbService.AddUserAsync(user);
+                
                 //return RedirectToAction("Index");
+                var matches = await _cosmosMatchDbService.GetMatchesAsync("SELECT * FROM c");
+                user.UserSelection = new();
+                foreach (var match in matches)
+                {
+                    
+                    user.UserSelection.Add(new UserSelection()
+                    {
+                        Id = match.Id,
+                        HomeTeam = match.HomeTeam,
+                        AwayTeam = match.AwayTeam
+                    });
+                }
+
+                await _cosmosDbService.AddUserAsync(user);
             }
 
             return user;
@@ -94,9 +110,18 @@ namespace TodoListService.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<User> Patch(string id, [FromBody] User user)
         {
+            var us = await _cosmosDbService.GetUserAsync(id);
+            us.FirstName = user.FirstName;
+            us.Surname = user.Surname;
+            us.Username = user.Username;
+            us.IsPaid = user.IsPaid;
+            us.IsAdmin = user.IsAdmin;
+            us.IsDeleted = user.IsDeleted;
+            //us.UserSelection = user.UserSelection;
+
             if (ModelState.IsValid)
             {
-                await _cosmosDbService.UpdateUserAsync(id, user);
+                await _cosmosDbService.UpdateUserAsync(id, us);
                 //return RedirectToAction("Index");
             }
 
