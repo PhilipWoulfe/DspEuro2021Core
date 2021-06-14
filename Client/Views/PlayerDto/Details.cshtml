@@ -93,7 +93,9 @@
                         @Html.DisplayFor(modelItem => item.Points)
                     </td>
                     <td class="cAlign" data-toggle="tooltip" title="@reasons" data-placement="right">
-                        <i class="fas fa-info-circle"></i>
+                            @if(!string.IsNullOrEmpty(reasons)) {
+                            <i class="fas fa-info-circle"></i>
+                        }
                     </td>
                 </tr>
                         }
