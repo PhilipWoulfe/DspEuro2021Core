@@ -54,29 +54,29 @@ namespace TodoListService.Services
                 if (userSelection.HomeTeamScore == actualHomeScore)
                 {
                     score += _correctHomeScore;
-                    reasons.Add("Correct Home Score");
+                    reasons.Add("Correct Home Score |");
                 }
                 if (userSelection.AwayTeamScore == actualAwayScore)
                 {
                     score += _correctAwayScore;
-                    reasons.Add("Correct Away Score");
+                    reasons.Add(" Correct Away Score |");
                 }
                 if (userSelection.HomeTeamScore == actualHomeScore && userSelection.AwayTeamScore == actualAwayScore)
                 {
                     score += _correctScore;
-                    reasons.Add("Correct Score");
+                    reasons.Add(" Correct Score |");
                 }
                 if (userSelection.HomeTeamScore > userSelection.AwayTeamScore && actualHomeScore > actualAwayScore
                     || userSelection.HomeTeamScore < userSelection.AwayTeamScore && actualHomeScore < actualAwayScore
                     || userSelection.HomeTeamScore == userSelection.AwayTeamScore && actualHomeScore == actualAwayScore)
                 {
                     score += _correctResult;
-                    reasons.Add("Correct Result");
+                    reasons.Add(" Correct Result |");
 
                     if (userSelection.HomeTeamScore - userSelection.AwayTeamScore == actualHomeScore - actualAwayScore)
                     {
                         score += _correctMarginScore;
-                        reasons.Add("Correct Margin");
+                        reasons.Add(" Correct Margin |");
                     }
                 }
 
