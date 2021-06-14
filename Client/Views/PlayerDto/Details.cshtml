@@ -38,7 +38,7 @@
                         <th class="cAlign">
                             Points
                         </th>
-                        <th class="cAlign">
+                        <th>
                             Reasons
                         </th>
                     </tr>
@@ -51,8 +51,20 @@
 
                             if (!groupList.Contains(item.Stage))
                             {
-                                <tr><th colspan="7" scope="colgroup">@item.Stage</th></tr>
+                                <tr><th colspan="9" scope="colgroup">@item.Stage</th></tr>
                                 groupList.Add(item.Stage);
+                            }
+
+                            string homeStyle = item.HomeScore > item.AwayScore ? "color:Green" : item.HomeScore < item.AwayScore ? "color:Red" : "color:Blue";
+                            string awayStyle = item.AwayScore > item.HomeScore ? "color:Green" : item.AwayScore < item.HomeScore ? "color:Red" : "color:Blue";
+
+                            string reasons = "";
+                            if (item.Reasons != null) {
+                                foreach (var reason in item.Reasons)
+                                {
+                                    if (reason != null)
+                                        reasons += reason;
+                                }
                             }
                 <tr>
                     <td>
@@ -64,7 +76,8 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
-                    <td class="cAlign">
+
+                    <td class="cAlign" style="@homeStyle">
                         @Html.DisplayFor(modelItem => item.HomeTeam)
                     </td>
                     <td class="cAlign">
@@ -73,14 +86,16 @@
                     <td class="cAlign">
                         @Html.DisplayFor(modelItem => item.AwayScore)
                     </td>
-                    <td class="cAlign">
+                    <td class="cAlign" style="@awayStyle">
                         @Html.DisplayFor(modelItem => item.AwayTeam)
                     </td>
                     <td class="cAlign">
                         @Html.DisplayFor(modelItem => item.Points)
                     </td>
-                    <td data-toggle="tooltip" title="Details" data-placement="right">
-                        @Html.DisplayFor(modelItem => item.Reasons)
+                    <td class="cAlign" data-toggle="tooltip" title="@reasons" data-placement="right">
+                            @if(!string.IsNullOrEmpty(reasons)) {
+                            <i class="fas fa-info-circle"></i>
+                        }
                     </td>
                 </tr>
                         }
@@ -94,32 +109,32 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Rank</th>
+                            <th class="cAlign">Rank</th>
                             <th>
                                 @item.Key
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 P
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 W
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 D
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 L
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 GF
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 GA
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 GD
                             </th>
-                            <th>
+                            <th class="cAlign">
                                 PTS
                             </th>
                         </tr>
@@ -130,34 +145,34 @@
                             foreach (var team in item.Value)
                             {
                                 <tr>
-                                    <td>
+                                    <td class="cAlign">
                                         @index
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => team.Name)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.Played)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.Won)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.Drawn)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.Lost)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.GoalsFor)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.GoalsAgainst)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.GoalDifference)
                                     </td>
-                                    <td>
+                                    <td class="cAlign">
                                         @Html.DisplayFor(modelItem => team.Points)
                                     </td>
                                 </tr>
