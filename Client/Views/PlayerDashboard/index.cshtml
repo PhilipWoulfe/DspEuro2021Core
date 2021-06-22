@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TodoListClient.Dtos.PlayerDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container body-content">
+    <h2>Player Dashboard</h2>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PlayerName)
+            </th>
+            <th>Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+            </tr>
+        }
+        
+        @foreach (var names in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => names.PlayerName)
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+    <h1>Hi Ryan @Model.GetEnumerator()</h1>
+ 
+</div>
