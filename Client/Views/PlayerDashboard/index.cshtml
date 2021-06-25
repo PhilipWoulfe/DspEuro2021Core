@@ -1,4 +1,6 @@
-﻿@model IEnumerable<TodoListClient.Dtos.PlayerDto>
+﻿@using Microsoft.Azure.Cosmos.Scripts
+@model IEnumerable<TodoListClient.Dtos.PlayerDto>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,8 +36,8 @@
                         </td>
                     </tr>
                 }
+        <h1>Hi Ryan</h1>
         </tbody>
     </table>
-    <h1>Hi Ryan @Model.GetEnumerator()</h1>
- 
+   
 </div>

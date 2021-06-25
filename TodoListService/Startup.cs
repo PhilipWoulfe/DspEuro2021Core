@@ -50,6 +50,7 @@ namespace TodoListService
             services.AddControllersWithViews();
             services.AddSingleton<ICosmosUserDbService>(InitializeCosmosClientUserInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
             services.AddSingleton<ICosmosMatchDbService>(InitializeCosmosClientMatchInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+            // services.AddSingleton<ICosmosPlayerStatsDbService>(InitializeCosmosPlayerStatsInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
@@ -123,6 +124,19 @@ namespace TodoListService
         {
             string databaseName = configurationSection.GetSection("DatabaseName").Value;
             string matchContainerName = configurationSection.GetSection("MatchContainerName").Value;
+            string account = configurationSection.GetSection("Account").Value;
+            string key = configurationSection.GetSection("Key").Value;
+            Microsoft.Azure.Cosmos.CosmosClient client = new(account, key);
+            CosmosDbMatchService cosmosDbService = new(client, databaseName, matchContainerName);
+            Microsoft.Azure.Cosmos.DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+            await database.Database.CreateContainerIfNotExistsAsync(matchContainerName, "/id");
+
+            return cosmosDbService;
+        }
+        private static async Task<CosmosDbMatchService> InitializeCosmosPlayerStatsInstanceAsync(IConfigurationSection configurationSection)
+        {
+            string databaseName = configurationSection.GetSection("DatabaseName").Value;
+            string matchContainerName = configurationSection.GetSection("PlayerStatsContainerName").Value;
             string account = configurationSection.GetSection("Account").Value;
             string key = configurationSection.GetSection("Key").Value;
             Microsoft.Azure.Cosmos.CosmosClient client = new(account, key);
