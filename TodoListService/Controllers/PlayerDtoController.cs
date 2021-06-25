@@ -36,6 +36,7 @@ using TodoListService.Interfaces.Services;
 using TodoListService.Models;
 using TodoListService.Enums;
 using TodoListService.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace TodoListService.Controllers
 {
@@ -47,13 +48,21 @@ namespace TodoListService.Controllers
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ICosmosMatchDbService _cosmosMatchDbService;
         private readonly ICosmosUserDbService _cosmosUserDbService;
+        private readonly IScoringService _scoringService;
+        protected readonly string _baseAddress = string.Empty;
+        private string _apiKey;
+        
+        private const int _predictGoldenBoot = 25;
 
         public PlayerDtoController(IHttpContextAccessor contextAccessor, ICosmosMatchDbService cosmosMatchDbService,
-            ICosmosUserDbService cosmosUserDbService)
+            ICosmosUserDbService cosmosUserDbService, IScoringService scoringService, IConfiguration configuration)
         {
             _contextAccessor = contextAccessor;
             _cosmosMatchDbService = cosmosMatchDbService;
             _cosmosUserDbService = cosmosUserDbService;
+            _scoringService = scoringService;
+            _baseAddress = configuration["FootballData:Url"];
+            _apiKey = configuration["FootballData:ApiKey"];
         }
 
         // GET: api/values
@@ -75,7 +84,7 @@ namespace TodoListService.Controllers
             foreach (var userMatch in user.UserSelection)
             {
                 var match = matches.FirstOrDefault(x => x.Id == userMatch.Id);
-                var points = ScoringService.ScoreMatch(match, userMatch);
+                var points = _scoringService.ScoreMatch(match, userMatch, matches);
 
                 player.Points += points?.Score;
 
@@ -84,8 +93,10 @@ namespace TodoListService.Controllers
                     UtcDate = match.UtcDate,
                     Status = match.Status,
                     Stage = match.Stage,
-                    HomeTeam = match.HomeTeam.Name,
-                    AwayTeam = match.AwayTeam.Name,
+                    HomeTeam = match.Stage == Stage.GROUP_STAGE ? userMatch.HomeTeam.Name : string.Format("{0} ({1})", userMatch.HomeTeam.Name, match.HomeTeam.Name),
+                    AwayTeam = match.Stage == Stage.GROUP_STAGE ? userMatch.AwayTeam.Name : string.Format("{0} ({1})", userMatch.AwayTeam.Name, match.AwayTeam.Name),
+                    //HomeTeam = userMatch.HomeTeam.Name,
+                    //AwayTeam = userMatch.AwayTeam.Name,
                     HomeScore = userMatch.HomeTeamScore,
                     AwayScore = userMatch.AwayTeamScore,
                     Points = points?.Score,
@@ -244,6 +255,8 @@ namespace TodoListService.Controllers
         {
             var users = await _cosmosUserDbService.GetUsersAsync("SELECT * FROM c");
             var matches = await _cosmosMatchDbService.GetMatchesAsync("SELECT * FROM c");
+            string actualGoldenBoot;
+            bool competitionOver = !matches.Where(x => x.Status != Status.FINISHED).Any();
 
             users = users.Where(x => !x.IsDeleted);
 
@@ -253,9 +266,13 @@ namespace TodoListService.Controllers
                 return null;
             }
 
-            foreach(var user in users)
+            var response = await _scoringService.DeserializeOptimizedFromStreamCallAsync(_apiKey, _baseAddress);
+            actualGoldenBoot = response.Scorers[0].Player.Name;
+
+            foreach (var user in users)
             {
                 var points = 0;
+                var correctGoldenBoot = actualGoldenBoot == user.GoldenBoot;
 
                 if(user.UserSelection == null)
                 {
@@ -264,17 +281,27 @@ namespace TodoListService.Controllers
 
                 foreach(var userSelection in user.UserSelection) {
                     var match = matches.FirstOrDefault(x => x.Id == userSelection.Id);
-                    var score = ScoringService.ScoreMatch(match, userSelection);
+                    var score = _scoringService.ScoreMatch(match, userSelection, matches);
                     var point = score?.Score ?? 0;
                     
                     points += point;
                 }
 
+                if (competitionOver)
+                {
+                    if (correctGoldenBoot)
+                    {
+                        points += _predictGoldenBoot;
+                    }
+                }
+
+
                 players.Add(new()
                 {
                     Id = user.Id,
                     PlayerName = user.Username,
-                    Points = points
+                    Points = points,
+                    GoldenBootPoints = !competitionOver && correctGoldenBoot ? _predictGoldenBoot : 0
                 });
             }
 

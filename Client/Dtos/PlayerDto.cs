@@ -15,6 +15,8 @@ namespace TodoListClient.Dtos
 
         public int? Points { get; set; }
 
+        public int GoldenBootPoints { get; set; }
+
         [BindProperty]
         public IList<PlayerMatchDto> Matches { get; set; }
 

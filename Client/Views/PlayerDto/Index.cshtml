@@ -13,7 +13,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PlayerName)
                 </th>
-                <th>Points</th>
+                <th>Points (Current Golden Boot Points)</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +25,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Points)
+                        @if (item.GoldenBootPoints != 0) {
+                    <span>(+@Html.DisplayFor(modelItem => item.GoldenBootPoints))</span>
+                        }
                 </td>
             </tr>
             }

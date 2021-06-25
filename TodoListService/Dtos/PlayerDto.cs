@@ -20,5 +20,9 @@ namespace TodoListService.Dtos
 
         public string GoldenBoot { get; set; }
 
+        public int GoldenBootPoints { get; set; }
+
+        public bool CompetionOver;
+
     }
 }

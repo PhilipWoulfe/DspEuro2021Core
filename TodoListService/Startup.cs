@@ -50,6 +50,10 @@ namespace TodoListService
             services.AddControllersWithViews();
             services.AddSingleton<ICosmosUserDbService>(InitializeCosmosClientUserInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
             services.AddSingleton<ICosmosMatchDbService>(InitializeCosmosClientMatchInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+            
+            services.AddScoped<IScoringService, ScoringService>();
+            services.AddHttpClient<IScoringService, ScoringService>();
+            
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
