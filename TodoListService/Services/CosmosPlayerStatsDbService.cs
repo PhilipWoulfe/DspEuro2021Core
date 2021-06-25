@@ -6,19 +6,8 @@ using TodoListService.Models;
 
 namespace TodoListService.Services
 {
-    public class CosmosPlayerStatsDbService
+    public class CosmosPlayerStatsDbService : ICosmosPlayerStatsDbService
     {
-        private Container _container;
-        
-        public CosmosPlayerStatsDbService(
-            CosmosClient dbClient,
-            string databaseName,
-            string containerName
-            )
-        {
-            this._container = dbClient.GetContainer(databaseName, containerName);
-        }
-        
         public async Task<UserStats> GetUserStats()
         {
             var returnMe = new UserStats();

@@ -13,9 +13,9 @@ namespace TodoListService.Controllers
     public class PlayerDashboardController : Controller
     {
       
-        private readonly CosmosPlayerStatsDbService _cosmosPlayerStatsService;
+        private readonly ICosmosPlayerStatsDbService _cosmosPlayerStatsService;
 
-        public PlayerDashboardController(CosmosPlayerStatsDbService cosmosPlayerStatsService)
+        public PlayerDashboardController(ICosmosPlayerStatsDbService cosmosPlayerStatsService)
         {
             _cosmosPlayerStatsService = cosmosPlayerStatsService;
           
