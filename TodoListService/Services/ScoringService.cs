@@ -61,8 +61,8 @@ namespace TodoListService.Services
 
             var home = userSelection.HomeTeam.Name;
             var away = userSelection.AwayTeam.Name;
-            var homeMessage = string.Format("Predicted {0} Qualified |", home);
-            var awayMessage = string.Format("Predicted {0} Qualified |", away);
+            var homeMessage = string.Format(" Predicted {0} Qualified |", home);
+            var awayMessage = string.Format(" Predicted {0} Qualified |", away);
 
 
             switch (match.Stage)
@@ -124,8 +124,8 @@ namespace TodoListService.Services
 
             if (match.Status == Status.FINISHED)
             {
-                var actualHomeScore = (match.Score.FullTime.HomeTeam ?? 0) + (match.Score.ExtraTime.HomeTeam ?? 0);
-                var actualAwayScore = (match.Score.FullTime.AwayTeam ?? 0) + (match.Score.ExtraTime.AwayTeam ?? 0);
+                var actualHomeScore = match.Score.ExtraTime.HomeTeam == null ? match.Score.FullTime.HomeTeam : match.Score.ExtraTime.HomeTeam;
+                var actualAwayScore = match.Score.ExtraTime.AwayTeam == null ? match.Score.FullTime.AwayTeam : match.Score.ExtraTime.AwayTeam;
 
                 if (match.Score.Penalties.HomeTeam != null)
                 {
@@ -143,7 +143,7 @@ namespace TodoListService.Services
                 if (userSelection.HomeTeamScore == actualHomeScore)
                 {
                     score += _correctHomeScore;
-                    reasons.Add("Correct Home Score |");
+                    reasons.Add(" Correct Home Score |");
                 }
                 if (userSelection.AwayTeamScore == actualAwayScore)
                 {
