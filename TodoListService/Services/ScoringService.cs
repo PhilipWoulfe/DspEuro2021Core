@@ -21,13 +21,13 @@ namespace TodoListService.Services
         private const int _correctHomeScore = 1;
         private const int _correctAwayScore = 1;
         private const int _correctMarginScore = 1;
-        
+
         private const int _predictSecondRound = 3;
         private const int _predictQuarterFinals = 6;
         private const int _predictSemiFinals = 10;
         private const int _predictFinals = 15;
         private const int _predictWinner = 20;
-        
+
         private readonly HttpClient _httpClient;
 
         public ScoringService(HttpClient httpClient)
@@ -47,59 +47,76 @@ namespace TodoListService.Services
             IEnumerable<Match> semiFinals = matches.Where(x => x.Stage == Stage.SEMI_FINAL);
             IEnumerable<Match> final = matches.Where(x => x.Stage == Stage.FINAL);
 
+            var last16Teams = last16.Select(x => x.HomeTeam.Name).ToList();
+            last16Teams.AddRange(last16.Select(x => x.AwayTeam.Name).ToList());
+
+            var quarterFinalsTeams = quarterFinals.Select(x => x.HomeTeam.Name).ToList();
+            quarterFinalsTeams.AddRange(quarterFinals.Select(x => x.AwayTeam.Name).ToList());
+
+            var semiFinalsTeams = semiFinals.Select(x => x.HomeTeam.Name).ToList();
+            semiFinalsTeams.AddRange(semiFinals.Select(x => x.AwayTeam.Name).ToList());
+
+            var finalTeams = final.Select(x => x.HomeTeam.Name).ToList();
+            finalTeams.AddRange(final.Select(x => x.AwayTeam.Name).ToList());
+
+            var home = userSelection.HomeTeam.Name;
+            var away = userSelection.AwayTeam.Name;
+            var homeMessage = string.Format("Predicted {0} Qualified |", home);
+            var awayMessage = string.Format("Predicted {0} Qualified |", away);
+
 
             switch (match.Stage)
             {
                 case Stage.LAST_16:
-                    if (last16.Where(x => x.HomeTeam.Name == userSelection.HomeTeam.Name).Any())
+                    if (last16Teams.Contains(home))
                     {
                         score += _predictSecondRound;
-                        reasons.Add("Predicted Home Team Qualified |");
+                        reasons.Add(homeMessage);
                     }
 
-                    if (last16.Where(x => x.AwayTeam.Name == userSelection.AwayTeam.Name).Any())
+                    if (last16Teams.Contains(away))
                     {
                         score += _predictSecondRound;
-                        reasons.Add("Predicted Away Team Qualified |");
+                        reasons.Add(awayMessage);
                     }
                     break;
                 case Stage.QUARTER_FINAL:
-                    if (quarterFinals.Where(x => x.HomeTeam.Name == userSelection.HomeTeam.Name).Any())
+                    if (quarterFinalsTeams.Contains(home))
                     {
                         score += _predictQuarterFinals;
-                        reasons.Add("Predicted Home Team Qualified |");
+                        reasons.Add(homeMessage);
                     }
 
-                    if (quarterFinals.Where(x => x.AwayTeam.Name == userSelection.AwayTeam.Name).Any())
+                    if (quarterFinalsTeams.Contains(away))
                     {
                         score += _predictQuarterFinals;
-                        reasons.Add("Predicted Away Team Qualified |");
+                        reasons.Add(awayMessage);
                     }
                     break;
                 case Stage.SEMI_FINAL:
-                    if (semiFinals.Where(x => x.HomeTeam.Name == userSelection.HomeTeam.Name).Any())
+                    if (semiFinalsTeams.Contains(home))
                     {
                         score += _predictSemiFinals;
-                        reasons.Add("Predicted Home Team Qualified |");
+                        reasons.Add(homeMessage);
                     }
 
-                    if (semiFinals.Where(x => x.AwayTeam.Name == userSelection.AwayTeam.Name).Any())
+                    if (semiFinalsTeams.Contains(away))
                     {
                         score += _predictSemiFinals;
-                        reasons.Add("Predicted Away Team Qualified |");
+                        reasons.Add(awayMessage);
                     }
                     break;
                 case Stage.FINAL:
-                    if (final.Where(x => x.HomeTeam.Name == userSelection.HomeTeam.Name).Any())
+                    if (finalTeams.Contains(home))
                     {
                         score += _predictFinals;
-                        reasons.Add("Predicted Home Team Qualified |");
+                        reasons.Add(homeMessage);
                     }
 
-                    if (final.Where(x => x.AwayTeam.Name == userSelection.AwayTeam.Name).Any())
+                    if (finalTeams.Contains(away))
                     {
                         score += _predictFinals;
-                        reasons.Add("Predicted Away Team Qualified |");
+                        reasons.Add(awayMessage);
                     }
                     break;
             }
