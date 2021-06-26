@@ -17,6 +17,9 @@ namespace TodoListClient.Controllers
 
         public async Task<ActionResult> Index()
         {
+            // var list = _playerService.GetAll();
+            
+            
             return View(await _playerService.GetAsync());
         }
     }
